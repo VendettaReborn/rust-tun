@@ -64,6 +64,11 @@ impl Device {
         Ok(device)
     }
 
+    pub fn luid(&self) -> Option<u64> {
+        let luid = self.tun.session.get_adapter().get_luid();
+        Some(unsafe { luid.Value })
+    }
+
     pub fn split(self) -> (Reader, Writer) {
         let tun = Arc::new(self.tun);
         (Reader(tun.clone()), Writer(tun))
